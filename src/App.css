@@ -1,0 +1,22 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	background: url("./img/pade_background.jpg") no-repeat center center fixed;
+
+	background-size: cover;
+}
+.app-wrapper {
+	margin: 100px auto 0 auto;
+	border-top: 5px solid rgba(118, 156, 133, 0.5);
+	border-bottom: 5px solid rgba(118, 156, 133, 0.5);
+	border-radius: 50px;
+	max-width: 1440px;
+}
+
+.app-wrapper-content {
+	width: 90%;
+	margin: 0 auto;
+	padding: 30px 0;
+}

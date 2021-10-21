@@ -1,0 +1,80 @@
+.postsBlock {
+	padding: 10px;
+}
+/* .posts {
+} */
+.item img {
+	width: 50px;
+	height: 50px;
+}
+.item {
+	color: greenyellow;
+	margin-bottom: 20px;
+}
+
+.postsBlock__title {
+	color: rgba(214, 226, 215, 0.9);
+	margin-bottom: 50px;
+}
+
+.newPost {
+	background: rgba(118, 156, 133, 0.5);
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+	border-radius: 6px;
+}
+.newPostForm {
+	padding: 10px 20px;
+	display: flex;
+	flex-direction: column;
+}
+.newPostAuthors {
+	max-width: 20%;
+	display: block;
+	padding: 2px 5px;
+	display: block;
+	border-radius: 3px;
+	margin-bottom: 20px;
+	padding: 5px 10px;
+	font-size: 16px;
+	line-height: 24px;
+}
+.newPostTitle {
+	display: block;
+	border-radius: 3px;
+	margin-bottom: 20px;
+	width: 40%;
+	height: 30px;
+	font-size: 16px;
+	line-height: 24px;
+	padding: 0px 10px;
+}
+
+.newPostText {
+	resize: none;
+	font-size: 16px;
+	line-height: 24px;
+	width: 98%;
+	height: 150px;
+	display: block;
+	border-radius: 3px;
+	padding: 5px 10px;
+	margin-bottom: 20px;
+}
+.newPostButton {
+	display: inline-block;
+	border-radius: 7px;
+	height: 40px;
+	width: 100px;
+	background: rgb(159, 197, 176);
+	font-weight: 700;
+}
+.error {
+	bottom: 0;
+	left: 0;
+	color: red;
+}
+.formField {
+	position: relative;
+}
