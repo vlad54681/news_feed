@@ -179,8 +179,7 @@ let initialState = {
 const appReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_POST:
-			let initialPosts = state.posts;
-			let allvalues = Object.keys(initialPosts).map(function (key) { return initialPosts[key].id + 1; });
+			let allvalues = Object.keys(state.posts).map(function (key) { return state.posts[key].id + 1; });
 			let newPost = {
 				id: state.posts.length == 0 ? 1
 					: Math.max.apply(null, allvalues),
@@ -307,27 +306,15 @@ export const filterPosts = (search) => async (dispatch, getState) => {
 
 export const setCurrentPost = (pos) => async (dispatch, getState) => {
 	let gottenCurrentPost = getState().appPage.currentPost;
-
-
-
-	if (gottenCurrentPost.author
-		&& gottenCurrentPost.title
-		&& gottenCurrentPost.text) {
-
-		let updatesPosts = getState().appPage.posts;
-		updatesPosts.splice([pos], 1, {
-			id: gottenCurrentPost.id,
-			text: gottenCurrentPost.text,
-			title: gottenCurrentPost.title,
-			author: gottenCurrentPost.author,
-			date: gottenCurrentPost.date,
-		});
-		dispatch(setUpdatesPosts(updatesPosts))
-	} else {
-
-		let initialPosts = getState().appPage.posts;
-		dispatch(setUpdatesPosts(initialPosts))
-	}
+	let updatesPosts = getState().appPage.posts;
+	updatesPosts.splice([pos], 1, {
+		title: gottenCurrentPost.title == null ? updatesPosts[pos].title : gottenCurrentPost.title,
+		text: gottenCurrentPost.text == null ? updatesPosts[pos].text : gottenCurrentPost.text,
+		author: gottenCurrentPost.author == null ? updatesPosts[pos].author : gottenCurrentPost.author,
+		date: gottenCurrentPost.date ? updatesPosts[pos].date : gottenCurrentPost.date,
+		id: gottenCurrentPost.id,
+	});
+	dispatch(setUpdatesPosts(updatesPosts))
 }
 
 

@@ -1,16 +1,11 @@
 import s from './NewsFeed.module.css';
-
 import { Field, Form } from 'react-final-form';
-
-
-
-
 
 const NewsPostEditor = ({ setCurrentPost, editCurrentPost, currentPost, setEditMode, posts, whatAuthor }) => {
 
 
 	let onEditPost = (handleSubmit) => {
-		editCurrentPost(handleSubmit.newMessageTitle, handleSubmit.newMessageBody, handleSubmit.newMessageAuthor)
+		editCurrentPost(handleSubmit.newMessageBody, handleSubmit.newMessageTitle, handleSubmit.newMessageAuthor)
 		let currentId = posts.map(function (e) { return e.id; }).indexOf(currentPost.id);
 		setCurrentPost(currentId);
 		setEditMode(false)
@@ -22,7 +17,7 @@ const NewsPostEditor = ({ setCurrentPost, editCurrentPost, currentPost, setEditM
 		<Form
 			onSubmit={onEditPost}
 			initialValues={{ newMessageAuthor: null }}
-			render={({ handleSubmit, form }) => (
+			render={({ handleSubmit }) => (
 				<form
 					onSubmit={event => {
 						handleSubmit(event);
@@ -40,7 +35,6 @@ const NewsPostEditor = ({ setCurrentPost, editCurrentPost, currentPost, setEditM
 									{whatAuthor}
 								</select>
 								<div className={s.error}>
-									{meta.error && meta.touched && <span>{meta.error}</span>}
 								</div>
 							</div>
 						)}
@@ -55,7 +49,6 @@ const NewsPostEditor = ({ setCurrentPost, editCurrentPost, currentPost, setEditM
 									className={s.newPostTitle}
 								/>
 								<span className={s.error}>
-									{meta.error && meta.touched && <span>{meta.error}</span>}
 								</span>
 							</div>
 						)}
@@ -70,7 +63,6 @@ const NewsPostEditor = ({ setCurrentPost, editCurrentPost, currentPost, setEditM
 									className={s.newPostText}
 								/>
 								<div className={s.error}>
-									{meta.error && meta.touched && <span>{meta.error}</span>}
 								</div>
 							</div>
 						)}

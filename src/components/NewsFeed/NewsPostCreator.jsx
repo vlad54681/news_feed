@@ -29,14 +29,11 @@ const NewsPostCreator = ({ addNewPost, whatAuthor }) => {
 								>
 									<option defaultValue={null}></option>
 									{whatAuthor}
-
 								</select>
-
 								<div className={s.error}>
 									{meta.error && meta.touched && <span >{meta.error}</span>}
 								</div>
 							</div>
-
 						)}
 					</Field>
 
