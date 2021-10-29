@@ -3,9 +3,12 @@ import styles from './Authors.module.css'
 
 
 const Authors = (props) => {
-	return (<div>
-		<div className={styles.postsBlock}>
-			<NavLink to="/news"><h1 className={styles.postsBlock__title}>AUTHORS</h1></NavLink>
+	return (<div className={styles.authorsPageContainer}>
+		<div className={styles.authorsPageHeader}>
+			<div className={styles.postsBlock}>
+				<h1 className={styles.postsBlock__title}>AUTHORS</h1>
+			</div>
+			<div className={styles.backToNewsfeed}><NavLink to="/news">BACK TO NEWSFEED</NavLink></div>
 		</div>
 		<div className={styles.authorsFeed}>
 			{

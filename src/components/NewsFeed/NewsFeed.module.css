@@ -28,6 +28,8 @@
 	padding: 10px 20px;
 	display: flex;
 	flex-direction: column;
+	margin-bottom: 40px;
+	position: relative;
 }
 .newPostAuthors {
 	max-width: 20%;
@@ -41,6 +43,7 @@
 	line-height: 24px;
 }
 .newPostTitle {
+	position: relative;
 	display: block;
 	border-radius: 3px;
 	margin-bottom: 20px;
@@ -71,10 +74,49 @@
 	font-weight: 700;
 }
 .error {
-	bottom: 0;
-	left: 0;
-	color: red;
-}
-.formField {
+	font-size: 18px;
+	height: 10px;
 	position: relative;
+	bottom: 23px;
+	color: rgb(146, 23, 23);
+}
+
+.searchBlockContainer {
+	width: 100%;
+	margin: 0 auto;
+	margin-bottom: 15px;
+	padding-top: 10px;
+}
+
+.searchBlock {
+	display: flex;
+	align-items: center;
+	height: 30px;
+}
+.searchField {
+	height: 30px;
+	display: block;
+	width: 100%;
+	flex: 1;
+}
+.searchField input {
+	width: 98%;
+	height: 28px;
+	padding-left: 14px;
+	border-radius: 0 10px 10px 0;
+	position: relative;
+	bottom: 2px;
+	outline: none;
+}
+.searchButton {
+	padding: 0 10px;
+	flex: 0;
+	height: 30px;
+	display: block;
+	width: 20%;
+	border-radius: 10px 0 0 10px;
+}
+.postsForm {
+	width: 70%;
+	margin: 0 auto;
 }

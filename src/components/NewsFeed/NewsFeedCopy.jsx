@@ -1,7 +1,3 @@
-import { connect } from "react-redux";
-import { setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, addPost, } from '../../redux/app-reducer';
-
-
 import s from './NewsFeed.module.css';
 import React, { useState } from 'react';
 import { Field, Form } from 'react-final-form';
@@ -10,9 +6,14 @@ import NewsPostCreator from './NewsPostCreator';
 import NewsPostEditor from './NewsPostEditor';
 
 
-const NewsFeed = ({ setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, currentPost, posts, authors, addPost }) => {
+const NewsFeed = ({ filterPosts, filterFilteredPosts, filteredPosts, editPost, deletePost, posts, setFilteredPosts, search, authors, setSearch, addPost }) => {
 
 	let [editMode, setEditMode] = useState(false);
+
+	let onSearch = (search) => {
+		filterPosts(search);
+	}
+
 
 	let now = new Date();
 	let options = {
@@ -33,16 +34,18 @@ const NewsFeed = ({ setCurrentPost, editCurrentPost, getCurrentPost, filterPosts
 	}
 
 
+	let onDeletePost = (id) => {
+		return deletePost(posts.filter(p => p.id != id))
+	}
 
 
 
 
 
 
-
-	let whatAuthor = authors.map(a => <option key={a.id} value={a.authorName} >{a.authorName}</option>)
+	let whatAuthor = authors.map(a => <option value={a.authorName} >{a.authorName}</option>)
 	let newsElements =
-		posts.map(p => <Post key={p.id} getCurrentPost={getCurrentPost} setEditMode={setEditMode} deletePost={deletePost} id={p.id} title={p.title} text={p.text} author={p.author} date={p.date} />
+		posts.map(p => <Post goToEditMode={() => { setEditMode(true) }} posts={posts} onDeletePost={onDeletePost} id={p.id} title={p.title} text={p.text} author={p.author} date={p.date} />
 		);
 
 	return <div className={s.postsBlock}>
@@ -51,7 +54,7 @@ const NewsFeed = ({ setCurrentPost, editCurrentPost, getCurrentPost, filterPosts
 			<div className={s.newPost}>
 				{editMode
 					?
-					<NewsPostEditor setCurrentPost={setCurrentPost} currentPost={currentPost} editCurrentPost={editCurrentPost} setEditMode={setEditMode} posts={posts} whatAuthor={whatAuthor} />
+					<NewsPostEditor setFilteredPosts={setFilteredPosts} editPost={editPost} setEditMode={setEditMode} posts={posts} whatAuthor={whatAuthor} />
 					: <NewsPostCreator addNewPost={addNewPost} whatAuthor={whatAuthor} />}
 
 			</div>
@@ -60,7 +63,7 @@ const NewsFeed = ({ setCurrentPost, editCurrentPost, getCurrentPost, filterPosts
 		<div className={s.postsForm}>
 			<div className={s.searchBlockContainer} >
 				<Form
-					onSubmit={filterPosts}
+					onSubmit={onSearch}
 					render={({ handleSubmit }) => (
 						<form
 							className={s.searchBlock}
@@ -96,14 +99,11 @@ const NewsFeed = ({ setCurrentPost, editCurrentPost, getCurrentPost, filterPosts
 	</div >
 }
 
-const mapStateToProps = (state) => {
-	return {
-		currentPost: state.appPage.currentPost,
-		authors: state.appPage.authors,
-		search: state.appPage.search,
-		posts: state.appPage.posts,
-		filteredPosts: state.appPage.filteredPosts,
-	}
-}
 
-export default connect(mapStateToProps, { setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, addPost })(NewsFeed);
+
+export default NewsFeed;
+
+
+
+
+

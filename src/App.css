@@ -8,7 +8,7 @@ body {
 	background-size: cover;
 }
 .app-wrapper {
-	margin: 100px auto 0 auto;
+	margin: 100px auto 20px auto;
 	border-top: 5px solid rgba(118, 156, 133, 0.5);
 	border-bottom: 5px solid rgba(118, 156, 133, 0.5);
 	border-radius: 50px;

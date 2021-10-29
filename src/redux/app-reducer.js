@@ -1,13 +1,17 @@
 const ADD_POST = 'ADD_POST';
 const SET_SEARCH = 'SET_SEARCH';
-const SET_FILTERED_POSTS = 'SET_FILTERED_POSTS';
 const DELETE_POST = 'DELETE_POST';
-
+const EDIT_POST = 'EDIT_POST';
+const SET_FILTERED_POSTS = 'SET_FILTERED_POSTS';
+const FILTERED_POSTS = 'FILTERED_POSTS';
+const SET_POSTS = 'SET_POSTS';
+const GET_CURRENT_POST = 'SET_CURRENT_POST';
+const EDIT_CURRENT_POST = 'EDIT_CURRENT_POST';
+const SET_UPDATES_POSTS = 'SET_UPDATES_POSTS';
 
 let initialState = {
-	posts: [
-	],
-
+	posts: [],
+	filteredPosts: '',
 	authors: [
 		{
 
@@ -168,14 +172,18 @@ let initialState = {
 		},
 	],
 	search: '',
+	currentPost: {},
 
 }
 
 const appReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_POST:
+			let initialPosts = state.posts;
+			let allvalues = Object.keys(initialPosts).map(function (key) { return initialPosts[key].id + 1; });
 			let newPost = {
-				id: state.posts.length + 1,
+				id: state.posts.length == 0 ? 1
+					: Math.max.apply(null, allvalues),
 				author: action.newMessageAuthor,
 				title: action.newMessageTitle,
 				text: action.newMessageBody,
@@ -187,26 +195,140 @@ const appReducer = (state = initialState, action) => {
 				posts: [...state.posts, newPost],
 
 			}
+		case FILTERED_POSTS: {
+
+			return {
+				...state,
+				posts: action.posts
+			}
+		}
 		case SET_FILTERED_POSTS: {
-			return { ...state, posts: action.posts }
+			let initialPosts = state.posts;
+			return {
+				...state,
+				filteredPosts: initialPosts
+			}
+		}
+		case SET_POSTS: {
+			let initialFilteredPosts = state.filteredPosts;
+			return {
+				...state,
+				posts: initialFilteredPosts
+			}
+		}
+		case GET_CURRENT_POST: {
+			let newCorrentPost = {
+				id: action.newMessegaId,
+				author: action.newMessageAuthor,
+				title: action.newMessageTitle,
+				text: action.newMessageBody,
+				date: action.mewMessageDate,
+			}
+			return {
+				...state,
+				currentPost: newCorrentPost
+			}
+		}
+		case EDIT_CURRENT_POST: {
+			let newCorrentPost = {
+				id: state.currentPost.id,
+				text: action.newMessageBody,
+				title: action.newMessageTitle,
+				author: action.newMessageAuthor,
+				date: state.currentPost.date,
+
+			};
+			return {
+				...state,
+				currentPost: newCorrentPost
+			}
 		}
 		case DELETE_POST: {
+
 			return { ...state, posts: state.posts.filter(p => p.id != action.id) }
+		}
+		case EDIT_POST: {
+			return { ...state, posts: action.posts }
 		}
 		case SET_SEARCH: {
 			return { ...state, search: action.search }
+		}
+		case SET_UPDATES_POSTS: {
+			return {
+				...state,
+				posts: action.posts
+			}
 		}
 		default:
 			return state;
 	}
 }
 
-export const setSearch = (search) => ({ type: SET_SEARCH, search })
-export const setFilteredPosts = (posts) => ({ type: SET_FILTERED_POSTS, posts })
+export const setUpdatesPosts = (posts) => ({ type: SET_UPDATES_POSTS, posts })
+export const setPosts = (posts) => ({ type: SET_POSTS, posts })
+export const setFilteredPosts = (filteredPosts) => ({ type: SET_FILTERED_POSTS, filteredPosts })
+export const onFilterPosts = (posts) => ({ type: FILTERED_POSTS, posts })
 export const deletePost = (id) => ({ type: DELETE_POST, id })
-
+export const editPost = (posts) => ({ type: EDIT_POST, posts })
+export const setSearch = (search) => ({ type: SET_SEARCH, search })
 export const addPost = (newMessageBody, newMessageTitle, newMessageAuthor, mewMessageDate) => {
 	return { type: ADD_POST, newMessageBody, newMessageTitle, newMessageAuthor, mewMessageDate }
 }
+export const getCurrentPost = (newMessegaId, newMessageBody, newMessageTitle, newMessageAuthor, mewMessageDate) => {
+	return { type: GET_CURRENT_POST, newMessegaId, newMessageBody, newMessageTitle, newMessageAuthor, mewMessageDate }
+}
+export const editCurrentPost = (newMessageBody, newMessageTitle, newMessageAuthor) => {
+	return { type: EDIT_CURRENT_POST, newMessageBody, newMessageTitle, newMessageAuthor }
+}
+
+
+export const filterPosts = (search) => async (dispatch, getState) => {
+	dispatch(setSearch(search.searchField));
+	let filteringPosts = getState().appPage.filteredPosts;
+	let initialPosts = getState().appPage.posts;
+	if (initialPosts.length >= filteringPosts.length) {
+		dispatch(setFilteredPosts());
+	} else if (filteringPosts.length > initialPosts.length) {
+		dispatch(setPosts())
+	}
+	let stateSearch = getState().appPage.search;
+	if (!stateSearch) {
+		return initialPosts
+	} else {
+		let returnedPosts = getState().appPage.posts;
+		return dispatch(onFilterPosts(returnedPosts.filter(item => {
+			return item['title'].toLowerCase().includes(search.searchField.toLowerCase())
+				|| item['text'].toLowerCase().includes(search.searchField.toLowerCase())
+				|| item['author'].toLowerCase().includes(search.searchField.toLowerCase())
+				|| item['date'].toLowerCase().includes(search.searchField.toLowerCase())
+		})))
+	}
+}
+
+export const setCurrentPost = (pos) => async (dispatch, getState) => {
+	let gottenCurrentPost = getState().appPage.currentPost;
+
+
+
+	if (gottenCurrentPost.author
+		&& gottenCurrentPost.title
+		&& gottenCurrentPost.text) {
+
+		let updatesPosts = getState().appPage.posts;
+		updatesPosts.splice([pos], 1, {
+			id: gottenCurrentPost.id,
+			text: gottenCurrentPost.text,
+			title: gottenCurrentPost.title,
+			author: gottenCurrentPost.author,
+			date: gottenCurrentPost.date,
+		});
+		dispatch(setUpdatesPosts(updatesPosts))
+	} else {
+
+		let initialPosts = getState().appPage.posts;
+		dispatch(setUpdatesPosts(initialPosts))
+	}
+}
+
 
 export default appReducer;
