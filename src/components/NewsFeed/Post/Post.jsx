@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import s from './Post.module.css';
 
 
-const Post = ({ getCurrentPost, setEditMode, deletePost, id, author, title, text, date }) => {
+const Post = ({ editMode, setCurrentAuthor, getCurrentPost, setEditMode, deletePost, id, author, title, text, date }) => {
 	let onDelete = () => {
 		const result = confirm('Do you really want to delete the post?');
 		if (result) {
@@ -15,11 +15,13 @@ const Post = ({ getCurrentPost, setEditMode, deletePost, id, author, title, text
 		getCurrentPost(id, text, title, author, date)
 		setEditMode(true)
 	}
-
+	let showCurrentAuthor = () => {
+		setCurrentAuthor(author)
+	}
 	return (
 		<div className={s.item}>
 			<div className={s.author}>
-				<NavLink to="/authors">{author}</NavLink>
+				<NavLink onClick={showCurrentAuthor} to="/authors">{author}</NavLink>
 			</div>
 			<div className={s.title}>
 				<h3>{title}</h3>
@@ -31,8 +33,8 @@ const Post = ({ getCurrentPost, setEditMode, deletePost, id, author, title, text
 				{date}
 			</div>
 			<div className={s.buttons}>
-				<button className={s.button} onClick={goToEditMode}>EDIT</button>
-				<button className={s.button + ' ' + s.deleteButton} onClick={onDelete}>DELETE</button>
+				<button className={s.button} disabled={editMode == true} onClick={goToEditMode}>EDIT</button>
+				<button className={s.button + ' ' + s.deleteButton} disabled={editMode == true} onClick={onDelete}>DELETE</button>
 
 			</div>
 		</div >

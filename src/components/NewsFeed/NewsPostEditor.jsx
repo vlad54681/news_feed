@@ -16,7 +16,6 @@ const NewsPostEditor = ({ setCurrentPost, editCurrentPost, currentPost, setEditM
 	return <div className={s.newPostForm}>
 		<Form
 			onSubmit={onEditPost}
-			initialValues={{ newMessageAuthor: null }}
 			render={({ handleSubmit }) => (
 				<form
 					onSubmit={event => {
@@ -25,6 +24,7 @@ const NewsPostEditor = ({ setCurrentPost, editCurrentPost, currentPost, setEditM
 				>
 					<Field
 						name={'newMessageAuthor'}
+						defaultValue={currentPost.author}
 					>
 						{({ input, meta }) => (
 							<div className={s.formField}>
@@ -41,10 +41,13 @@ const NewsPostEditor = ({ setCurrentPost, editCurrentPost, currentPost, setEditM
 					</Field>
 					<Field
 						name={'newMessageTitle'}
+
+						defaultValue={currentPost.title}
 					>
-						{({ input, meta }) => (
+						{({ input, meta, }) => (
 							<div className={s.formField}>
 								<input {...input}
+									// defaultValue={currentPost.title}
 									placeholder="Enter title.."
 									className={s.newPostTitle}
 								/>
@@ -55,10 +58,13 @@ const NewsPostEditor = ({ setCurrentPost, editCurrentPost, currentPost, setEditM
 					</Field>
 					<Field
 						name={'newMessageBody'}
+						defaultValue={currentPost.text}
 					>
 						{({ input, meta }) => (
 							<div className={s.formField}>
 								<textarea {...input}
+
+
 									placeholder="Enter message.."
 									className={s.newPostText}
 								/>

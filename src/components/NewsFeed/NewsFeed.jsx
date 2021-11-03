@@ -1,16 +1,99 @@
 import { connect } from "react-redux";
-import { setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, addPost, } from '../../redux/app-reducer';
+import { setCurrentAuthor, setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, addPost, } from '../../store/app-reducer';
 import s from './NewsFeed.module.css';
 import React, { useState } from 'react';
 import Post from './Post/Post';
 import NewsPostCreator from './NewsPostCreator';
 import NewsPostEditor from './NewsPostEditor';
 import SearchForm from "./SearchForm";
+import arrowUp from '../../assets/img/icons/arrowUp.png';
+import arrowDown from '../../assets/img/icons/arrowDown.png';
 
-
-const NewsFeed = ({ setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, currentPost, posts, authors, addPost }) => {
+const NewsFeed = ({ setCurrentAuthor, setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, currentPost, posts, authors, addPost }) => {
 
 	let [editMode, setEditMode] = useState(false);
+	let [sortPostsByText, setsortPostsByText] = useState(false);
+	let [sortPostsByTitle, setsortPostsByTitle] = useState(false);
+	let [sortPostsByAuthor, setsortPostsByAuthor] = useState(false);
+
+	const onSortByText = () => {
+
+		if (sortPostsByText == false) {
+			posts.sort(function (a, b) {
+				let elem1 = a.text.toLowerCase()
+				let elem2 = b.text.toLowerCase()
+				if (elem1 < elem2)
+					return -1
+				if (elem1 > elem2)
+					return 1
+				return 0
+			})
+			setsortPostsByText(true)
+		} else {
+			posts.sort(function (a, b) {
+				let elem1 = a.text.toLowerCase()
+				let elem2 = b.text.toLowerCase()
+				if (elem1 > elem2)
+					return -1
+				if (elem1 < elem2)
+					return 1
+				return 0
+			})
+			setsortPostsByText(false)
+		}
+	}
+	const onSortByTitle = () => {
+
+		if (sortPostsByTitle == false) {
+			posts.sort(function (a, b) {
+				let elem1 = a.title.toLowerCase()
+				let elem2 = b.title.toLowerCase()
+				if (elem1 < elem2)
+					return -1
+				if (elem1 > elem2)
+					return 1
+				return 0
+			})
+			setsortPostsByTitle(true)
+		} else {
+			posts.sort(function (a, b) {
+				let elem1 = a.title.toLowerCase()
+				let elem2 = b.title.toLowerCase()
+				if (elem1 > elem2)
+					return -1
+				if (elem1 < elem2)
+					return 1
+				return 0
+			})
+			setsortPostsByTitle(false)
+		}
+	}
+	const onSortByAuthor = () => {
+
+		if (sortPostsByAuthor == false) {
+			posts.sort(function (a, b) {
+				let elem1 = a.author.toLowerCase()
+				let elem2 = b.author.toLowerCase()
+				if (elem1 < elem2)
+					return -1
+				if (elem1 > elem2)
+					return 1
+				return 0
+			})
+			setsortPostsByAuthor(true)
+		} else {
+			posts.sort(function (a, b) {
+				let elem1 = a.author.toLowerCase()
+				let elem2 = b.author.toLowerCase()
+				if (elem1 > elem2)
+					return -1
+				if (elem1 < elem2)
+					return 1
+				return 0
+			})
+			setsortPostsByAuthor(false)
+		}
+	}
 
 	let whatDate = () => {
 		let now = new Date();
@@ -36,7 +119,7 @@ const NewsFeed = ({ setCurrentPost, editCurrentPost, getCurrentPost, filterPosts
 	let whatAuthor = authors.map(a => <option key={a.id} value={a.authorName} >{a.authorName}</option>)
 
 	let newsElements =
-		posts.map(p => <Post key={p.id} getCurrentPost={getCurrentPost} setEditMode={setEditMode} deletePost={deletePost} id={p.id} title={p.title} text={p.text} author={p.author} date={p.date} />
+		posts.map(p => <Post editMode={editMode} setCurrentAuthor={setCurrentAuthor} key={p.id} getCurrentPost={getCurrentPost} setEditMode={setEditMode} deletePost={deletePost} id={p.id} title={p.title} text={p.text} author={p.author} date={p.date} />
 		);
 
 	return <div className={s.postsBlock}>
@@ -50,12 +133,19 @@ const NewsFeed = ({ setCurrentPost, editCurrentPost, getCurrentPost, filterPosts
 
 			</div>
 		</div>
-
 		<div className={s.postsForm}>
 			<SearchForm filterPosts={filterPosts} />
+			<div className={s.sortBlock}>
+				<p className={s.sortTitle}>Sorting: </p>
+				<div className={s.sortButtonContainer}><button className={s.sortButton} onClick={onSortByText}>by text</button><img className={s.sortArrow} src={sortPostsByText == true ? arrowDown : arrowUp} alt="" /></div>
+				<div className={s.sortButtonContainer}><button className={s.sortButton} onClick={onSortByTitle}>by title</button><img className={s.sortArrow} src={sortPostsByTitle == true ? arrowDown : arrowUp} alt="" /></div>
+				<div className={s.sortButtonContainer}><button className={s.sortButton} onClick={onSortByAuthor}>by author</button><img className={s.sortArrow} src={sortPostsByAuthor == true ? arrowDown : arrowUp} alt="" /></div>
+			</div>
 			{newsElements}
 
 		</div>
+
+
 	</div >
 }
 
@@ -71,5 +161,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-	setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, addPost
+	setCurrentAuthor, setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, addPost
 })(NewsFeed);

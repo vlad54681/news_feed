@@ -3,7 +3,7 @@
 	padding: 0;
 }
 body {
-	background: url("./img/pade_background.jpg") no-repeat center center fixed;
+	background: url("./assets/img/pade_background.jpg") no-repeat center center fixed;
 
 	background-size: cover;
 }

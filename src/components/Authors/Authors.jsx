@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import styles from './Authors.module.css'
 
 
-const Authors = (props) => {
+const Authors = ({ сurrentAuthor }) => {
 	return (<div className={styles.authorsPageContainer}>
 		<div className={styles.authorsPageHeader}>
 			<div className={styles.postsBlock}>
@@ -11,23 +11,21 @@ const Authors = (props) => {
 			<div className={styles.backToNewsfeed}><NavLink to="/news">BACK TO NEWSFEED</NavLink></div>
 		</div>
 		<div className={styles.authorsFeed}>
-			{
-				props.authors.map(author =>
-					<div className={styles.itemContainer}>
-						<ul className={styles.authorsBlock}>
-							<li ><h3 className={styles.authorName}>{author.authorName}</h3></li>
-							<li ><span className={styles.authorDesc}>Age:</span><span>{author.age}</span></li>
-							<li ><span className={styles.authorDesc}>Birthday:</span><span>{author.birthday}</span></li>
-							<li ><span className={styles.authorDesc}>Deathday:</span><span>{author.deathday}</span></li>
-							<li ><span className={styles.authorDesc}>Location:</span><span>{author.city}, {author.country}</span></li>
-							<li ><span className={styles.authorDesc}>Gender:</span><span>{author.gender}</span></li>
-							<li ><span className={styles.authorDesc}>Marital status:</span><span>{author.civilStatus}</span></li>
-							<li ><span className={styles.authorDesc}>Progession:</span><span>{author.profession}</span></li>
-							<li ><span className={styles.authorDesc}>Education:</span><span>{author.education}</span></li>
-							<li ><span className={styles.authorDesc}>Genres:</span><span>{author.genre}</span></li>
-						</ul>
-					</div>)
-			}
+
+			<div className={styles.itemContainer}>
+				<ul className={styles.authorsBlock}>
+					<li ><h3 className={styles.authorName}>{сurrentAuthor.authorName}</h3></li>
+					<li ><span className={styles.authorDesc}>Age:</span><span>{сurrentAuthor.age}</span></li>
+					<li ><span className={styles.authorDesc}>Birthday:</span><span>{сurrentAuthor.birthday}</span></li>
+					<li ><span className={styles.authorDesc}>Deathday:</span><span>{сurrentAuthor.deathday}</span></li>
+					<li ><span className={styles.authorDesc}>Location:</span><span>{сurrentAuthor.city}, {сurrentAuthor.country}</span></li>
+					<li ><span className={styles.authorDesc}>Gender:</span><span>{сurrentAuthor.gender}</span></li>
+					<li ><span className={styles.authorDesc}>Marital status:</span><span>{сurrentAuthor.civilStatus}</span></li>
+					<li ><span className={styles.authorDesc}>Progession:</span><span>{сurrentAuthor.profession}</span></li>
+					<li ><span className={styles.authorDesc}>Education:</span><span>{сurrentAuthor.education}</span></li>
+					<li ><span className={styles.authorDesc}>Genres:</span><span>{сurrentAuthor.genre}</span></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	)

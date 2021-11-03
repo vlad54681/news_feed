@@ -8,6 +8,8 @@ const SET_POSTS = 'SET_POSTS';
 const GET_CURRENT_POST = 'SET_CURRENT_POST';
 const EDIT_CURRENT_POST = 'EDIT_CURRENT_POST';
 const SET_UPDATES_POSTS = 'SET_UPDATES_POSTS';
+const GET_CURRENT_AUTHOR = 'GET_CURRENT_AUTHOR';
+
 
 let initialState = {
 	posts: [],
@@ -15,7 +17,6 @@ let initialState = {
 	authors: [
 		{
 
-			id: 1,
 			authorName: 'Petro Dostoevski',
 			age: '36',
 			birthday: '01/03/1869',
@@ -27,11 +28,11 @@ let initialState = {
 			profession: "author, philanthropist",
 			education: 'Emory University',
 			genre: 'detective fiction, crime',
+			id: 1,
 		},
 
 		{
 
-			id: 2,
 			authorName: 'Serge Pushkin',
 			age: '33',
 			birthday: '09/05/1869',
@@ -43,11 +44,11 @@ let initialState = {
 			profession: "author, philanthropist",
 			education: 'University of Iowa',
 			genre: 'romantic novel, distopia',
+			id: 2,
 		},
 
 		{
 
-			id: 3,
 			authorName: 'Lion Fatty',
 			age: '56',
 			birthday: '09/23/1801',
@@ -59,11 +60,11 @@ let initialState = {
 			profession: "author, philanthropist",
 			education: 'Oberlin College',
 			genre: 'fantasy, cyberpunk',
+			id: 3,
 		},
 
 		{
 
-			id: 4,
 			authorName: 'Charles Dickens',
 			age: '22',
 			birthday: '09/23/1992',
@@ -75,11 +76,11 @@ let initialState = {
 			profession: "author, philanthropist",
 			education: 'Brown University',
 			genre: 'post-apocalyptic, crime',
+			id: 4,
 		},
 
 		{
 
-			id: 5,
 			authorName: 'Victor Hugo',
 			age: '30',
 			birthday: '09/21/1811',
@@ -91,11 +92,11 @@ let initialState = {
 			profession: "author, philanthropist",
 			education: 'Emory University',
 			genre: 'fantasy, distopia',
+			id: 5,
 		},
 
 		{
 
-			id: 6,
 			authorName: 'Alexandre Dumas',
 			age: '56',
 			birthday: '02/23/1889',
@@ -107,11 +108,11 @@ let initialState = {
 			profession: "author, philanthropist",
 			education: 'Oberlin College',
 			genre: 'fantasy',
+			id: 6,
 		},
 
 
 		{
-			id: 7,
 			authorName: 'Honore de Balzac',
 			age: '33',
 			birthday: '06/13/1821',
@@ -123,10 +124,10 @@ let initialState = {
 			profession: "cuthor, philanthropist",
 			education: 'Hamilton College',
 			genre: 'cyberpunk',
+			id: 7,
 		},
 
 		{
-			id: 8,
 			authorName: 'Samuel Johnson',
 			age: '26',
 			birthday: '01/30/1831',
@@ -138,10 +139,10 @@ let initialState = {
 			profession: "author, philanthropist",
 			education: 'University of Iowa',
 			genre: 'romantic novel, crime',
+			id: 8,
 		},
 
 		{
-			id: 9,
 			authorName: 'Jonathan Swift ',
 			age: '56',
 			birthday: '02/28/1901',
@@ -153,11 +154,11 @@ let initialState = {
 			profession: "author, philanthropist",
 			education: 'Emory University',
 			genre: 'romantic novel',
+			id: 9,
 		},
 
 		{
 
-			id: 10,
 			authorName: 'William Shakespeare',
 			age: '50',
 			birthday: '09/23/1801',
@@ -169,10 +170,12 @@ let initialState = {
 			profession: "author, philanthropist",
 			education: 'Brown University',
 			genre: 'distopia, post-apocalyptic',
+			id: 10,
 		},
 	],
 	search: '',
 	currentPost: {},
+	сurrentAuthor: {},
 
 }
 
@@ -216,7 +219,7 @@ const appReducer = (state = initialState, action) => {
 			}
 		}
 		case GET_CURRENT_POST: {
-			let newCorrentPost = {
+			let newCurrentPost = {
 				id: action.newMessegaId,
 				author: action.newMessageAuthor,
 				title: action.newMessageTitle,
@@ -225,11 +228,11 @@ const appReducer = (state = initialState, action) => {
 			}
 			return {
 				...state,
-				currentPost: newCorrentPost
+				currentPost: newCurrentPost
 			}
 		}
 		case EDIT_CURRENT_POST: {
-			let newCorrentPost = {
+			let newCurrentPost = {
 				id: state.currentPost.id,
 				text: action.newMessageBody,
 				title: action.newMessageTitle,
@@ -239,7 +242,7 @@ const appReducer = (state = initialState, action) => {
 			};
 			return {
 				...state,
-				currentPost: newCorrentPost
+				currentPost: newCurrentPost
 			}
 		}
 		case DELETE_POST: {
@@ -256,6 +259,26 @@ const appReducer = (state = initialState, action) => {
 			return {
 				...state,
 				posts: action.posts
+			}
+		}
+		case GET_CURRENT_AUTHOR: {
+			let newCurrentAuthor = {
+				authorName: action.currentAurhorName,
+				age: action.currentAurhorAge,
+				birthday: action.currentAurhorBirthday,
+				deathday: action.currentAurhorDeathday,
+				country: action.currentAurhorCountry,
+				city: action.currentAurhorCity,
+				gender: action.currentAurhorGender,
+				civilStatus: action.currentAurhorCivilStatus,
+				profession: action.currentAurhorProfession,
+				education: action.currentAurhorEducation,
+				genre: action.currentAurhorGenre,
+			}
+			return {
+				...state,
+				сurrentAuthor: newCurrentAuthor,
+
 			}
 		}
 		default:
@@ -275,6 +298,16 @@ export const addPost = (newMessageBody, newMessageTitle, newMessageAuthor, mewMe
 }
 export const getCurrentPost = (newMessegaId, newMessageBody, newMessageTitle, newMessageAuthor, mewMessageDate) => {
 	return { type: GET_CURRENT_POST, newMessegaId, newMessageBody, newMessageTitle, newMessageAuthor, mewMessageDate }
+}
+export const getCurrentAuthor = (currentAurhorName, currentAurhorAge, currentAurhorBirthday,
+	currentAurhorDeathday, currentAurhorCountry, currentAurhorCity, currentAurhorGender, currentAurhorCivilStatus,
+	currentAurhorProfession, currentAurhorEducation, currentAurhorGenre) => {
+	return {
+		type: GET_CURRENT_AUTHOR,
+		currentAurhorName, currentAurhorAge, currentAurhorBirthday,
+		currentAurhorDeathday, currentAurhorCountry, currentAurhorCity, currentAurhorGender, currentAurhorCivilStatus,
+		currentAurhorProfession, currentAurhorEducation, currentAurhorGenre
+	}
 }
 export const editCurrentPost = (newMessageBody, newMessageTitle, newMessageAuthor) => {
 	return { type: EDIT_CURRENT_POST, newMessageBody, newMessageTitle, newMessageAuthor }
@@ -316,6 +349,20 @@ export const setCurrentPost = (pos) => async (dispatch, getState) => {
 	});
 	dispatch(setUpdatesPosts(updatesPosts))
 }
-
+export const setCurrentAuthor = (authorName) => async (dispatch, getState) => {
+	let authors = getState().appPage.authors;
+	let currentAuthor = authors.find(item => item.authorName == authorName);
+	dispatch(getCurrentAuthor(currentAuthor.authorName,
+		currentAuthor.age,
+		currentAuthor.birthday,
+		currentAuthor.deathday,
+		currentAuthor.country,
+		currentAuthor.city,
+		currentAuthor.gender,
+		currentAuthor.civilStatus,
+		currentAuthor.profession,
+		currentAuthor.education,
+		currentAuthor.genre))
+}
 
 export default appReducer;

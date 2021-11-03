@@ -17,7 +17,7 @@ const App = (props) => {
 
 				<Route path='/authors'
 					render={() => <Authors
-						authors={props.state.appPage.authors}
+						сurrentAuthor={props.state.appPage.сurrentAuthor}
 					/>} />
 			</div>
 		</div>
