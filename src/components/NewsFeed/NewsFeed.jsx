@@ -12,87 +12,43 @@ import arrowDown from '../../assets/img/icons/arrowDown.png';
 const NewsFeed = ({ setCurrentAuthor, setCurrentPost, editCurrentPost, getCurrentPost, filterPosts, deletePost, currentPost, posts, authors, addPost }) => {
 
 	let [editMode, setEditMode] = useState(false);
-	let [sortPostsByText, setsortPostsByText] = useState(false);
-	let [sortPostsByTitle, setsortPostsByTitle] = useState(false);
-	let [sortPostsByAuthor, setsortPostsByAuthor] = useState(false);
+	let [sortPosts, setSortPosts] = useState(false);
 
-	const onSortByText = () => {
 
-		if (sortPostsByText == false) {
+	const onSort = (sortingItems) => {
+
+		if (sortPosts == false) {
 			posts.sort(function (a, b) {
-				let elem1 = a.text.toLowerCase()
-				let elem2 = b.text.toLowerCase()
+				let elem1 = a[sortingItems].toLowerCase()
+				let elem2 = b[sortingItems].toLowerCase()
 				if (elem1 < elem2)
 					return -1
 				if (elem1 > elem2)
 					return 1
 				return 0
 			})
-			setsortPostsByText(true)
+			setSortPosts(true)
 		} else {
 			posts.sort(function (a, b) {
-				let elem1 = a.text.toLowerCase()
-				let elem2 = b.text.toLowerCase()
+				let elem1 = a[sortingItems].toLowerCase()
+				let elem2 = b[sortingItems].toLowerCase()
 				if (elem1 > elem2)
 					return -1
 				if (elem1 < elem2)
 					return 1
 				return 0
 			})
-			setsortPostsByText(false)
+			setSortPosts(false)
 		}
 	}
-	const onSortByTitle = () => {
-
-		if (sortPostsByTitle == false) {
-			posts.sort(function (a, b) {
-				let elem1 = a.title.toLowerCase()
-				let elem2 = b.title.toLowerCase()
-				if (elem1 < elem2)
-					return -1
-				if (elem1 > elem2)
-					return 1
-				return 0
-			})
-			setsortPostsByTitle(true)
-		} else {
-			posts.sort(function (a, b) {
-				let elem1 = a.title.toLowerCase()
-				let elem2 = b.title.toLowerCase()
-				if (elem1 > elem2)
-					return -1
-				if (elem1 < elem2)
-					return 1
-				return 0
-			})
-			setsortPostsByTitle(false)
-		}
+	let onSortByText = () => {
+		onSort('text')
 	}
-	const onSortByAuthor = () => {
-
-		if (sortPostsByAuthor == false) {
-			posts.sort(function (a, b) {
-				let elem1 = a.author.toLowerCase()
-				let elem2 = b.author.toLowerCase()
-				if (elem1 < elem2)
-					return -1
-				if (elem1 > elem2)
-					return 1
-				return 0
-			})
-			setsortPostsByAuthor(true)
-		} else {
-			posts.sort(function (a, b) {
-				let elem1 = a.author.toLowerCase()
-				let elem2 = b.author.toLowerCase()
-				if (elem1 > elem2)
-					return -1
-				if (elem1 < elem2)
-					return 1
-				return 0
-			})
-			setsortPostsByAuthor(false)
-		}
+	let onSortByTitle = () => {
+		onSort('title')
+	}
+	let onSortByAuthor = () => {
+		onSort('author')
 	}
 
 	let whatDate = () => {
@@ -137,9 +93,9 @@ const NewsFeed = ({ setCurrentAuthor, setCurrentPost, editCurrentPost, getCurren
 			<SearchForm filterPosts={filterPosts} />
 			<div className={s.sortBlock}>
 				<p className={s.sortTitle}>Sorting: </p>
-				<div className={s.sortButtonContainer}><button className={s.sortButton} onClick={onSortByText}>by text</button><img className={s.sortArrow} src={sortPostsByText == true ? arrowDown : arrowUp} alt="" /></div>
-				<div className={s.sortButtonContainer}><button className={s.sortButton} onClick={onSortByTitle}>by title</button><img className={s.sortArrow} src={sortPostsByTitle == true ? arrowDown : arrowUp} alt="" /></div>
-				<div className={s.sortButtonContainer}><button className={s.sortButton} onClick={onSortByAuthor}>by author</button><img className={s.sortArrow} src={sortPostsByAuthor == true ? arrowDown : arrowUp} alt="" /></div>
+				<div className={s.sortButtonContainer}><button className={s.sortButton} onClick={onSortByText}>by text</button><img className={s.sortArrow} src={sortPosts == true ? arrowDown : arrowUp} alt="" /></div>
+				<div className={s.sortButtonContainer}><button className={s.sortButton} onClick={onSortByTitle}>by title</button><img className={s.sortArrow} src={sortPosts == true ? arrowDown : arrowUp} alt="" /></div>
+				<div className={s.sortButtonContainer}><button className={s.sortButton} onClick={onSortByAuthor}>by author</button><img className={s.sortArrow} src={sortPosts == true ? arrowDown : arrowUp} alt="" /></div>
 			</div>
 			{newsElements}
 
